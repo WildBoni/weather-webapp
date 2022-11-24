@@ -13,7 +13,8 @@ import {selectCityById} from '../selectors/cities'
 import SelectedCityTodayForecastContainer from './SelectedCityTodayForecastContainer';
 import SelectedCityWeekForecastContainer from './SelectedCityWeekForecastContainer';
 import { getTime } from 'date-fns';
-import {weatherApi} from '../services/weatherApi';
+import {weatherApi, useGetForecastByCoordinatesQuery, useGetWeatherByCityQuery} from '../services/weatherApi';
+// import {defaultCities} from './store/defaultCities';
 
 const Container = styled.section`
 	display: grid;
@@ -43,7 +44,7 @@ const StyledContainer = styled.div`
 	justify-self: stretch;
 	align-self: stretch;
 	overflow: hidden;
-  background: ${props => props.styles.purpleGradient};
+  // background: ${props => props.styles.purpleGradient};
   padding: 20px;
 	display: flex;
 	flex-direction: column;
@@ -68,7 +69,7 @@ const StyledTabs = styled.div`
 	grid-row: 2/3;
 	grid-column: 2/3;
 	align-self: baseline;
-  background-color: ${props => props.styles.purple};
+  // background-color: ${props => props.styles.purple};
   padding: 20px;
 	overflow: hidden;
   // border-radius: 25px;
@@ -76,49 +77,35 @@ const StyledTabs = styled.div`
   // width: 75%;
 `
 
-function DesktopHomePage(props) {
+function DesktopHomePage() {
 	const dispatch = useDispatch();
 	const themeContext = useContext(ThemeContext);
-  const forecast = useSelector(state => state.forecast.details);
+  // const forecast = useSelector(state => state.forecast.details);
+  const selectedCityId = useSelector(state => state.cities.selectedCity);
+  const weatherLocations = useSelector(state => state.weather);
 	let [isCityReady, setIsCityReady] = useState(false);
-
+	
+	//  const {data} = useGetWeatherByCityQuery('Dubai');
+	let city = selectCityById(weatherLocations, selectedCityId)
+	
 	useEffect(() => {
-		if(props.city && !isCityReady) {
+		if(city && !isCityReady) {
 			setIsCityReady(true);
-			fetchSelectedCityForecast(props.city.lat,props.city.lon)
+			fetchSelectedCityForecast(city.coord.lat,city.coord.lon)
 		}
-  }, [props])
+  }, [city])
   
   let fetchSelectedCityForecast = (lat, lon) =>	dispatch(
-			weatherApi.endpoints.getForecastByCoordinates.initiate({lat, lon})
-		)
+		// useGetForecastByCoordinatesQuery({lat, lon})
+		weatherApi.endpoints.getForecastByCoordinates.initiate({lat, lon})
+	)
   	.then(
-			(res) => dispatch(addToast({text: `${props.city.name} forecast loaded.`})), 
+			(res) => dispatch(addToast({text: `${city.name} forecast loaded.`})), 
 			(err) => dispatch(addToast({text: `${err}.`}))
-  )
+  	)
 	
   return(
     <Container>
-			{ 
-				props.city &&
-				<SelectedCityDetails data={props.city} current={forecast.result.current}/>
-			}
-			{forecast.result.hourly.length >= 1 &&
-				<StyledContainer styles={themeContext}>
-					<Title styles={themeContext}>Temps</Title>
-					<ForecastContainer styles={themeContext}>
-						<SelectedCityTodayForecastContainer hourlyForecast={forecast.result.hourly}/>
-					</ForecastContainer>
-				</StyledContainer>
-			}
-
-			{forecast?.result?.daily?.length >= 1 &&
-				<StyledTabs styles={themeContext}>
-					<Title styles={themeContext}>Daily forecast</Title>
-					<SelectedCityWeekForecastContainer dailyForecast={forecast.result.daily}/>
-					{/* <SelectedCityTabs current={forecast.current} data={props.data}/> */}
-				</StyledTabs>
-			}
 
 
 			
@@ -129,31 +116,33 @@ function DesktopHomePage(props) {
   )
 }
 
-const mapStateToProps = (state) => {
-	const city = selectCityById(state.weather.locations, state.cities.selectedCity);
-	let cityDetails;
-	if(city) {
-		 cityDetails = {
-			id: city[1].id,
-			lat: city[1].coord.lat,
-			lon: city[1].coord.lon,
-			name: city[1].name, 
-			weather: city[1].weather[0].main, 
-			wind: city[1].wind.speed, 
-			humidity: city[1].main.temp, 
-			icon: city[1].weather[0].icon,
-			iconUrl: `${weatherIconUrl}${city[1].weather[0].icon}`, 
-			temperature: Math.round(city[1].main.temp), 
-			maxTemperature: Math.round(city[1].main.temp_max), 
-			minTemperature: Math.round(city[1].main.temp_min), 
-			time: Math.floor(getTime(new Date(city[1].dt)) / 1000).format('dddd D, MMMM'),
-			hour: Math.floor(getTime(new Date(city[1].dt)) / 1000).format('kk:mm a')
-		}
-	};
+// const mapStateToProps = (state) => {
+// 	const city = selectCityById(state.weather.locations, state.cities.selectedCity);
+// 	let cityDetails;
+// 	if(city) {
+// 		 cityDetails = {
+// 			id: city[1].id,
+// 			lat: city[1].coord.lat,
+// 			lon: city[1].coord.lon,
+// 			name: city[1].name, 
+// 			weather: city[1].weather[0].main, 
+// 			wind: city[1].wind.speed, 
+// 			humidity: city[1].main.temp, 
+// 			icon: city[1].weather[0].icon,
+// 			iconUrl: `${weatherIconUrl}${city[1].weather[0].icon}`, 
+// 			temperature: Math.round(city[1].main.temp), 
+// 			maxTemperature: Math.round(city[1].main.temp_max), 
+// 			minTemperature: Math.round(city[1].main.temp_min), 
+// 			time: Math.floor(getTime(new Date(city[1].dt)) / 1000).format('dddd D, MMMM'),
+// 			hour: Math.floor(getTime(new Date(city[1].dt)) / 1000).format('kk:mm a')
+// 		}
+// 	};
 
-	return {
-		city: cityDetails
-	}
-}
+// 	return {
+// 		city: cityDetails
+// 	}
+// }
 
-export default connect(mapStateToProps)(DesktopHomePage);
+// export default connect(mapStateToProps)(DesktopHomePage);
+
+export default DesktopHomePage;

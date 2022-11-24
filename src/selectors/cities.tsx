@@ -8,8 +8,8 @@ const selectCityByName = (cities: any, text: any) => {
 }
 
 const selectCityById = (cities: any, id: string) => {
-  return Object.entries(cities).find(city => {
-    const textMatch = city[0].includes(id);
+  return cities.find((city: any) => {
+    const textMatch = city.id === id;
     return textMatch;
   })
 }

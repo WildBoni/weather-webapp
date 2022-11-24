@@ -4,6 +4,7 @@
 import citiesReducer from '../features/citiesSlice';
 import {weatherApi} from '../services/weatherApi';
 // import {forecastApi} from '../services/forecastApi';
+import weatherReducer from '../features/weatherSlice';
 import filtersReducer from '../features/filtersSlice';
 import toastsReducer from '../features/toastsSlice';
 
@@ -17,6 +18,7 @@ export const store = configureStore({
     cities: citiesReducer,
     [weatherApi.reducerPath]: weatherApi.reducer,
     // forecast: forecastReducer,
+    weather: weatherReducer,
     filters: filtersReducer,
     toasts: toastsReducer
   },

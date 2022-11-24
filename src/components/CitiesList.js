@@ -87,6 +87,7 @@ function CitiesList(props) {
 }
 
 const mapStateToProps = (state) => {
+	console.log(state)
 	return {
 		cities: selectCityByName(state.weather.locations, state.filters.text)
 	}

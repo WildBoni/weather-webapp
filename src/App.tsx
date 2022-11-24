@@ -13,6 +13,7 @@ import Toasts from "./components/Toasts";
 import {defaultCities} from './store/defaultCities';
 import { AppThunk } from './store/configureStore';
 // import {loadWeather} from './actions/weather';
+import {setCityWeather} from './features/weatherSlice';
 import {addToast} from './features/toastsSlice';
 import {apiUrl} from './shared/baseUrls';
 import { useAppDispatch } from './hooks/useRedux';
@@ -35,7 +36,10 @@ function App() {
     .forEach(([key,val]) => {
       dispatch(weatherApi.endpoints.getWeatherByCity.initiate(val.name))
       .then(
-        (res) => dispatch(addToast({text: `${res.data} weather loaded.`}))
+        (res) => {
+          res.data && dispatch(setCityWeather(res.data));
+          dispatch(addToast({text: `${res.originalArgs} weather loaded.`}))
+        }
       ).catch(
         (err) => dispatch(addToast({text: `${err.error}.`}))
       )

@@ -27,7 +27,8 @@ function DesktopFavCitiesColumn() {
 		e.preventDefault();
 		if('geolocation' in navigator) {
 			navigator.geolocation.getCurrentPosition((position) => {
-				dispatch(weatherApi.endpoints.getWeatherByCity.initiate(position.coords))
+				console.log(position)
+				dispatch(weatherApi.endpoints.getWeatherByCoordinates.initiate({lon: position.coords.latitude, lat: position.coords.longitude}))
 					.then(
 						(res) => dispatch(addToast({text: `Your location has been added!`})), 
 						(err) => dispatch(addToast({text: `${err}.`}))
@@ -43,7 +44,7 @@ function DesktopFavCitiesColumn() {
 		<>
 			<AddLocalization geolocation={getGeolocation}/>
 			<AddCity/>
-			<CitiesList/>
+			{/* <CitiesList/> */}
 			<SearchBar value={filters.text} onChange={onTextChange} clearFilter={clearFilter} />
 		</>
 	)

@@ -14,7 +14,7 @@ const AppRouter = () => {
     // <Router history={history}>
     <BrowserRouter>
       <div>
-        <Media query="(min-width: 997px)">
+        <Media query="(min-width: 197px)">
           {matches => matches ? (
             <Routes >
               <Route 
