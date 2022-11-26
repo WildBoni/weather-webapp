@@ -50,7 +50,6 @@ const Article = styled.article`
 	}
 `
 function SelectedCityDetails(props) {
-	console.log(props)
 	const themeContext = useContext(ThemeContext); 
 	let [backgroundColor, setBackgroundColor] = useState(props.current.weather[0].icon);
 	useEffect(() => {

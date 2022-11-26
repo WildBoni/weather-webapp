@@ -44,21 +44,22 @@ function CitiesList() {
 
 	let onSelectCity = (id) => {
 		dispatch(selectCity(id));
-		let filteredCity = filteredWeatherLocations.filter((city) => city[0] === id.toString());
-		let filteredCityCoords = filteredCity[0][1].coord;
-		dispatch(weatherApi.endpoints.getWeatherByCity.initiate(filteredCityCoords)).then(
-			(res) => dispatch(addToast({text: `${filteredCity[0][1].name} forecast loaded.`})), 
+		let filteredCity = filteredWeatherLocations.find((city) => city.id === id);
+		let filteredCityCoords = filteredCity.coord;
+		dispatch(weatherApi.endpoints.getForecastByCoordinates.initiate(filteredCityCoords)).then(
+			(res) => dispatch(addToast({text: `${filteredCity.name} forecast loaded.`})), 
 			(err) => dispatch(addToast({text: `${err}.`}))
 		)
 	}
 
 	let onRemoveCity = (id) => {
-		let filtered = filteredWeatherLocations.filter((city) => city[0] !== id.toString());
+		let filtered = filteredWeatherLocations.filter((city) => city.id !== id);
 		if(filtered.length > 0) {
 			// dispatch(startRemoveWeatherLocation(id))
-			// 	.then(dispatch(addToast({text: 'City removed!'})));
-				dispatch(addToast({text: 'City removed!'}));
-				dispatch(selectCity(filtered[0][1].id));
+			dispatch(removeCityWeather(id));
+			dispatch(addToast({text: 'City removed!'}));
+			dispatch(selectCity(filtered[0].id));
+				// .then(dispatch(addToast({text: 'City removed!'})));
 		}
 	}
 

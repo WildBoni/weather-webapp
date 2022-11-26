@@ -25,6 +25,7 @@ const Container = styled.section`
 	grid-gap: 20px;
 	padding: 20px;
 	height: calc(100vh - 40px);
+	// background-color: #1c193a;
 `
 const Section = styled.section`
 	grid-column: 3/4;
@@ -57,9 +58,10 @@ const StyledContainer = styled.div`
 const Title = styled.h2`
   color: white;
 	font-size: 28px;
-  padding: 18px 20px 16px 20px;
+  // padding: 18px 20px 16px 20px;
 `
 const ForecastContainer = styled.div`
+	background-color: #272346;
   // background: ${props => props.styles.blueGradient};
   box-shadow: 5px 5px 11px 2px rgb(0 0 0 / 40%);
 	overflow: hidden;
@@ -126,7 +128,6 @@ function DesktopHomePage() {
 	)
   	.then(
 			(res) => {
-				console.log(res)
 				res.data && dispatch(setCityForecast(res.data));
 				dispatch(addToast({text: `${city.name} forecast loaded.`}))
 			}, 
@@ -139,21 +140,21 @@ function DesktopHomePage() {
 				city && cityDetails && isForecastReady &&
 				<SelectedCityDetails details={cityDetails} current={cityForecast.details.current}/>
 			}
-			{/* {city && isForecastReady && cityForecast?.details?.hourly?.length >= 1 &&
+			{city && cityDetails && isForecastReady && cityForecast?.details?.hourly?.length >= 1 &&
 				<StyledContainer styles={themeContext}>
 					<Title styles={themeContext}>Temps</Title>
 					<ForecastContainer styles={themeContext}>
 						<SelectedCityTodayForecastContainer hourlyForecast={cityForecast.details.hourly}/>
 					</ForecastContainer>
 				</StyledContainer>
-			} */}
+			}
 
-			{/* {city && isForecastReady && cityForecast?.details?.daily?.length >= 1 &&
+			{city && cityDetails && isForecastReady && cityForecast?.details?.daily?.length >= 1 &&
 				<StyledTabs styles={themeContext}>
 					<Title styles={themeContext}>Daily forecast</Title>
 					<SelectedCityWeekForecastContainer dailyForecast={cityForecast.details.daily}/>
 				</StyledTabs>
-			} */}
+			}
 			
       <Section>
         <DesktopFavCitiesColumn/>

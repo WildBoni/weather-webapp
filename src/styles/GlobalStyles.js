@@ -10,7 +10,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: ${props => props.theme.lightGray};
+    // background-color: ${props => props.theme.lightGray};
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

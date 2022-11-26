@@ -12,6 +12,7 @@ const Panel = styled.div`
   span {
     color: white;
   } 
+  
   @media (min-width: 996px) {
     order: 0;
     // border-radius: 0 25px 25px 0;
@@ -47,7 +48,6 @@ let Text = styled.span`
 `
 
 function SelectedCityTemperature(props){
-  console.log(props)
   const themeContext = useContext(ThemeContext);
 
   return(

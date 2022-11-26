@@ -70,12 +70,7 @@ function CitiesListItem(props) {
 	return(
 		<Container>
 			<Button onClick={() => props.onRemoveCity(details.id)}>X</Button>
-			<Link onClick={() => props.onSelectCity(details.id)} to={{
-				pathname: `/city/${details.id}`,
-				state: { 
-					details
-				}
-			}}>
+			<div onClick={() => props.onSelectCity(details.id)}>
 				<Article className="city-box" styles={themeContext} cardColor={cardColor}>
 					<Details>
 						<h2>{details.name}</h2>
@@ -89,7 +84,7 @@ function CitiesListItem(props) {
 						{details.temperature}°
 					</Temperature>
 				</Article>
-			</Link>
+			</div>
 		</Container>
 	)
 }

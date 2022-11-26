@@ -6,6 +6,7 @@ import {apiUrl} from '../shared/baseUrls';
 import {loadWeather} from '../services/weatherApi';
 import {setTextFilter} from '../features/filtersSlice';
 import {addToast} from '../features/toastsSlice';
+import {setCityWeather} from '../features/weatherSlice';
 import CitiesList from './CitiesList';
 import AddCity from './AddCity';
 
@@ -30,7 +31,10 @@ function DesktopFavCitiesColumn() {
 				// console.log(position)
 				dispatch(weatherApi.endpoints.getWeatherByCoordinates.initiate({lon: position.coords.latitude, lat: position.coords.longitude}))
 					.then(
-						(res) => dispatch(addToast({text: `Your location has been added!`})), 
+						(res) => {
+							res.data && dispatch(setCityWeather(res.data));
+							dispatch(addToast({text: `Your location has been added!`}))
+						}, 
 						(err) => dispatch(addToast({text: `${err}.`}))
 					)
 			});

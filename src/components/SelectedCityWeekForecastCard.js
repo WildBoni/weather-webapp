@@ -30,7 +30,7 @@ function SelectedCityWeekForecastCard(props) {
   const themeContext = useContext(ThemeContext);
   
   let dailyForecast = props.dailyForecast;
-  let day = dailyForecast.dt.format('dddd');
+  let day = format(new Date(dailyForecast.dt * 1000), 'EEEE');
   let temperature = Math.round(dailyForecast.temp.day);
   let iconUrl = `${weatherIconUrl}${dailyForecast.weather[0].icon}`;
 	let cardColor = weatherBackgroundColor(dailyForecast.weather[0].icon);

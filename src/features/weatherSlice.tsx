@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {CityWeather} from '../shared/weather.interfaces';
-
+import { current } from '@reduxjs/toolkit';
 
 const initialState: CityWeather[] = [];
 
@@ -9,14 +9,14 @@ const weatherSlice = createSlice({
   initialState,
   reducers: {
     setCityWeather: (state, action: PayloadAction<CityWeather>) => {
-      state.push(action.payload);
+      state.unshift(action.payload);
     },
     removeCityWeather: (state, action: PayloadAction<number>) => {
-      state.filter((city) => city.id !== action.payload)
+      return state.filter((city) => city.id !== action.payload)
     }
   }
 })
 
 const {actions, reducer} = weatherSlice;
-export const {setCityWeather} = actions;
+export const {setCityWeather, removeCityWeather} = actions;
 export default reducer;
