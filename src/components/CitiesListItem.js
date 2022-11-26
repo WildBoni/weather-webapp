@@ -1,4 +1,3 @@
-import React from 'react';
 import {useContext} from 'react';
 import styled, {ThemeContext, keyframes} from 'styled-components';
 import {fadeInDown} from 'react-animations';
@@ -70,7 +69,7 @@ function CitiesListItem(props) {
 	return(
 		<Container>
 			<Button onClick={() => props.onRemoveCity(details.id)}>X</Button>
-			<div onClick={() => props.onSelectCity(details.id)}>
+			<Link onClick={() => props.onSelectCity(details.id)} to={`/city/${details.id}`}>
 				<Article className="city-box" styles={themeContext} cardColor={cardColor}>
 					<Details>
 						<h2>{details.name}</h2>
@@ -84,7 +83,7 @@ function CitiesListItem(props) {
 						{details.temperature}°
 					</Temperature>
 				</Article>
-			</div>
+			</Link>
 		</Container>
 	)
 }

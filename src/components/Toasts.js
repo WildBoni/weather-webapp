@@ -1,7 +1,5 @@
-import React from "react";
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
-import Toast from "./Toast";
+import {useDispatch, useSelector} from 'react-redux';
+import Toast from "./ui/Toast";
 import {removeToast} from "../features/toastsSlice";
 import styled from 'styled-components';
 
@@ -12,26 +10,20 @@ let Wrapper = styled.ul`
   right: 10px;
 `
 
-let Toasts = ({actions,toasts}) => {
-  const {removeToast} = actions;
+let Toasts = () => {
+  let dispatch = useDispatch();
+  const toasts = useSelector(state => state.toasts);
+
   return(
     <Wrapper>
       {toasts.map(toast => {
         const{id} = toast;
         return(
-          <Toast {...toast} key={id} onDismissClick={() => removeToast(id)}/>
+          <Toast {...toast} key={id} onDismissClick={() => dispatch(removeToast(id))}/>
         )
       })}
     </Wrapper>
   )
 }
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ removeToast }, dispatch)
-});
-
-const mapStateToProps = state => ({
-  toasts: state.toasts
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Toasts);
+export default Toasts

@@ -1,8 +1,7 @@
 // modal window for adding a new city
 import {useState} from 'react';
-import { useAppDispatch } from '../hooks/useRedux';
-import {useGetWeatherByCityQuery, weatherApi} from '../services/weatherApi';
-import {apiUrl} from '../shared/baseUrls';
+import {useAppDispatch} from '../hooks/useRedux';
+import {weatherApi} from '../services/weatherApi';
 import {addToast} from '../features/toastsSlice';
 import {setCityWeather} from '../features/weatherSlice';
 
@@ -17,7 +16,6 @@ let Modal = () => {
     dispatch(weatherApi.endpoints.getWeatherByCity.initiate(inputContent))
       .then(
         (res) => {
-          console.log(res)
           res.data && dispatch(setCityWeather(res.data));
           res.data && dispatch(addToast({text: `${res.originalArgs} weather added.`}))
         }

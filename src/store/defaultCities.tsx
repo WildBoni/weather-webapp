@@ -3,6 +3,7 @@ interface City {
   name: string,
   id: number
 }
+
 export const defaultCities: {
   selectedCity: number,
   cities: {

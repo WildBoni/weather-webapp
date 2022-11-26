@@ -1,25 +1,6 @@
-// Need to use the React-specific entry point to allow generating React hooks
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import {apiUrl} from '../shared/baseUrls';
 import {CityWeather, CityForecast, Coords} from '../shared/weather.interfaces';
-// declare const weatherAPI : {
-//   loadWeatherByCity<Response>(city: string): { data: Response }
-// }
-
-// interface initialState {
-//   locations: object;
-//   isLoading: boolean;
-//   error: null | string | undefined;
-// }
-
-// const initialState: initialState = {
-//  locations: {},
-//  isLoading: false,
-//  error: null
-// }
-
-
-
 
 export const weatherApi = createApi({
   reducerPath: 'weatherApi',

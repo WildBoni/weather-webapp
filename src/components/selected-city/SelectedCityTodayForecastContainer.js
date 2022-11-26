@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import SelectedCityHourlyForecast from './SelectedCityHourlyForecast';
 import ScrollContainer from 'react-indiana-drag-scroll';

@@ -10,6 +10,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    background-color: #1c193a;
     // background-color: ${props => props.theme.lightGray};
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: antialiased;

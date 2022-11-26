@@ -1,17 +1,12 @@
-import React, { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import styled from 'styled-components';
-// import moment from 'moment';
 import {weatherIconUrl} from '../shared/baseUrls';
 import CitiesListItem from './CitiesListItem';
 import {selectCityByName} from '../selectors/cities'
 import {selectCity} from '../features/citiesSlice';
 import {removeCityWeather} from '../features/weatherSlice';
-// import {startRemoveWeatherLocation} from '../actions/weather';
-// import {loadForecast} from '../actions/forecast';
 import {addToast} from '../features/toastsSlice';
-import {apiUrl} from '../shared/baseUrls';
-import { getTime, format } from 'date-fns';
+import { format } from 'date-fns';
 import {weatherApi} from '../services/weatherApi';
 
 let Container = styled.div`
@@ -55,11 +50,9 @@ function CitiesList() {
 	let onRemoveCity = (id) => {
 		let filtered = filteredWeatherLocations.filter((city) => city.id !== id);
 		if(filtered.length > 0) {
-			// dispatch(startRemoveWeatherLocation(id))
 			dispatch(removeCityWeather(id));
 			dispatch(addToast({text: 'City removed!'}));
 			dispatch(selectCity(filtered[0].id));
-				// .then(dispatch(addToast({text: 'City removed!'})));
 		}
 	}
 
@@ -91,14 +84,5 @@ function CitiesList() {
 		</Container>
 	)
 }
-
-// const mapStateToProps = (state) => {
-// 	console.log(state)
-// 	return {
-// 		cities: selectCityByName(state.weather.locations, state.filters.text)
-// 	}
-// }
-
-// export default connect(mapStateToProps)(CitiesList);
 
 export default CitiesList;

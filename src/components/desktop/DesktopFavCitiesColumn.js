@@ -1,19 +1,16 @@
-import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import SearchBar from './SearchBar';
-import AddLocalization from './AddLocalization';
-import {apiUrl} from '../shared/baseUrls';
-import {loadWeather} from '../services/weatherApi';
-import {setTextFilter} from '../features/filtersSlice';
-import {addToast} from '../features/toastsSlice';
-import {setCityWeather} from '../features/weatherSlice';
-import CitiesList from './CitiesList';
-import AddCity from './AddCity';
+import SearchBar from '../ui/SearchBar';
+import AddLocalization from '../ui/AddLocalization';
+import {setTextFilter} from '../../features/filtersSlice';
+import {addToast} from '../../features/toastsSlice';
+import {setCityWeather} from '../../features/weatherSlice';
+import CitiesList from '../CitiesList';
+import AddCity from '../ui/AddCity';
 
-import {weatherApi} from '../services/weatherApi';
+import {weatherApi} from '../../services/weatherApi';
 
 function DesktopFavCitiesColumn() {
-	let dispatch = useDispatch()
+	let dispatch = useDispatch();
 	let filters = useSelector(state => state.filters);
 	
 	let onTextChange = (e) => {
@@ -28,7 +25,6 @@ function DesktopFavCitiesColumn() {
 		e.preventDefault();
 		if('geolocation' in navigator) {
 			navigator.geolocation.getCurrentPosition((position) => {
-				// console.log(position)
 				dispatch(weatherApi.endpoints.getWeatherByCoordinates.initiate({lon: position.coords.latitude, lat: position.coords.longitude}))
 					.then(
 						(res) => {

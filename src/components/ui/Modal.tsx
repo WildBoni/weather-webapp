@@ -1,6 +1,6 @@
-import React from 'react';
+import {useContext} from 'react';
 import styled from 'styled-components';
-import { ModalContext } from "../context/modalContext";
+import { ModalContext } from "../../context/modalContext";
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -58,7 +58,7 @@ const CloseButton = styled.button`
 
 function Modal() {
   
-  let {modalContent, handleModal, modal, addCity, handleChange, handleKeyPress}: any = React.useContext(ModalContext);
+  let {modalContent, handleModal, modal, addCity, handleChange, handleKeyPress}: any = useContext(ModalContext);
   if(modal) {
     return(
       <ModalBackground>

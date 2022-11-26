@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import SelectedCityWeekForecastCard from './SelectedCityWeekForecastCard';
 import ScrollContainer from 'react-indiana-drag-scroll';

@@ -1,22 +1,16 @@
-import React, {useEffect, useState, useContext, useCallback, useMemo} from 'react';
+import {useEffect, useState, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-// import {loadForecast} from '../actions/forecast';
-import {apiUrl} from '../shared/baseUrls';
-import SelectedCityDetails from './SelectedCityDetails';
-import {addToast} from '../features/toastsSlice';
-import {connect} from 'react-redux';
+import SelectedCityDetails from '../selected-city/SelectedCityDetails';
+import {addToast} from '../../features/toastsSlice';
 import styled, {ThemeContext} from 'styled-components';
 import DesktopFavCitiesColumn from './DesktopFavCitiesColumn';
-// import moment from 'moment';
-import {weatherIconUrl} from '../shared/baseUrls';
-import {selectCityById} from '../selectors/cities'
-import SelectedCityTodayForecastContainer from './SelectedCityTodayForecastContainer';
-import SelectedCityWeekForecastContainer from './SelectedCityWeekForecastContainer';
-import { getTime } from 'date-fns';
-import {weatherApi, useGetForecastByCoordinatesQuery, useGetWeatherByCityQuery} from '../services/weatherApi';
-import {setCityForecast} from '../features/forecastSlice';
-import {format} from 'date-fns'
-// import {defaultCities} from './store/defaultCities';
+import {weatherIconUrl} from '../../shared/baseUrls';
+import {selectCityById} from '../../selectors/cities';
+import SelectedCityTodayForecastContainer from '../selected-city/SelectedCityTodayForecastContainer';
+import SelectedCityWeekForecastContainer from '../selected-city/SelectedCityWeekForecastContainer';
+import {weatherApi} from '../../services/weatherApi';
+import {setCityForecast} from '../../features/forecastSlice';
+import {format} from 'date-fns';
 
 const Container = styled.section`
 	display: grid;
@@ -84,15 +78,16 @@ const StyledTabs = styled.div`
 function DesktopHomePage() {
 	const dispatch = useDispatch();
 	const themeContext = useContext(ThemeContext);
-  // const forecast = useSelector(state => state.forecast.details);
+
   const selectedCityId = useSelector(state => state.cities.selectedCity);
   const weatherLocations = useSelector(state => state.weather);
   const cityForecast = useSelector(state => state.forecast);
+	
 	let [isForecastReady, setIsForecastReady] = useState(false);
 	let [cityDetails, setCityDetails] = useState('');
 	
-	//  const {data} = useGetWeatherByCityQuery('Dubai');
 	let city = selectCityById(weatherLocations, selectedCityId)
+	
 	useEffect(() => {
 		if(city) {
 			setCityDetails({
@@ -111,7 +106,6 @@ function DesktopHomePage() {
 				time: format(new Date(city.dt * 1000), 'EEEE d, MMMM'),
 				hour: format(new Date(city.dt * 1000), 'kk:mm a')
 			});
-			// setIsCityReady(true);
 			fetchSelectedCityForecast(city.coord.lat,city.coord.lon)
 		}
   }, [city])
@@ -123,7 +117,6 @@ function DesktopHomePage() {
   }, [cityForecast])
   
   let fetchSelectedCityForecast = (lat, lon) =>	dispatch(
-		// useGetForecastByCoordinatesQuery({lat, lon})
 		weatherApi.endpoints.getForecastByCoordinates.initiate({lat, lon})
 	)
   	.then(
@@ -162,34 +155,5 @@ function DesktopHomePage() {
     </Container>
   )
 }
-
-// const mapStateToProps = (state) => {
-// 	const city = selectCityById(state.weather.locations, state.cities.selectedCity);
-// 	let cityDetails;
-// 	if(city) {
-// 		 cityDetails = {
-// 			id: city[1].id,
-// 			lat: city[1].coord.lat,
-// 			lon: city[1].coord.lon,
-// 			name: city[1].name, 
-// 			weather: city[1].weather[0].main, 
-// 			wind: city[1].wind.speed, 
-// 			humidity: city[1].main.temp, 
-// 			icon: city[1].weather[0].icon,
-// 			iconUrl: `${weatherIconUrl}${city[1].weather[0].icon}`, 
-// 			temperature: Math.round(city[1].main.temp), 
-// 			maxTemperature: Math.round(city[1].main.temp_max), 
-// 			minTemperature: Math.round(city[1].main.temp_min), 
-// 			time: Math.floor(getTime(new Date(city[1].dt)) / 1000).format('dddd D, MMMM'),
-// 			hour: Math.floor(getTime(new Date(city[1].dt)) / 1000).format('kk:mm a')
-// 		}
-// 	};
-
-// 	return {
-// 		city: cityDetails
-// 	}
-// }
-
-// export default connect(mapStateToProps)(DesktopHomePage);
 
 export default DesktopHomePage;

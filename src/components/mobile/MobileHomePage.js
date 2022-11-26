@@ -1,14 +1,12 @@
-import React, {useState, createRef} from 'react';
+import {useState, createRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {apiUrl} from '../shared/baseUrls';
-// import {loadWeather} from '../actions/weather';
-import MobileMenuBar from '../components/MobileMenuBar';
-import {setTextFilter} from '../features/filtersSlice';
-import FilterSelectedCities from '../components/FilterSelectedCities';
-import {addToast} from '../features/toastsSlice';
-import CitiesList from './CitiesList';
-import AddCity from './AddCity';
-import {weatherApi} from '../services/weatherApi';
+import MobileMenuBar from './MobileMenuBar';
+import {setTextFilter} from '../../features/filtersSlice';
+import FilterSelectedCities from '../ui/FilterSelectedCities';
+import {addToast} from '../../features/toastsSlice';
+import CitiesList from '../CitiesList';
+import AddCity from '../ui/AddCity';
+import {weatherApi} from '../../services/weatherApi';
 
 function MobileHomePage() {
   const [searchbar, setSearchbar] = useState(false);

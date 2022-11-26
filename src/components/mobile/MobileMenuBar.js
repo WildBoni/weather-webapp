@@ -1,10 +1,8 @@
-import React from 'react';
 import{useContext} from 'react';
 import {ThemeContext} from 'styled-components';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import {StyledIconBase} from '@styled-icons/styled-icon';
-import { House, GeoAlt, Search } from '@styled-icons/bootstrap';
+import { GeoAlt, Search } from '@styled-icons/bootstrap';
 
 const Menu = styled.nav`
   background-color: white;
@@ -48,13 +46,6 @@ function MobileMenuBar(props) {
 
   return(
     <Menu>
-      {/* <Link to="/">
-        <Item underline="2px" styles={themeContext}>
-          <IconStyleWrapper>
-            <House />
-          </IconStyleWrapper>
-        </Item>
-      </Link> */}
       <Item onClick={props.toggleSearchbar} styles={themeContext}>
         <IconStyleWrapper>
           <Search />

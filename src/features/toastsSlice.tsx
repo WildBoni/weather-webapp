@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {useAppDispatch} from './../hooks/useRedux';
-import { RootState, AppThunk } from './../store/configureStore';
+import { AppThunk } from './../store/configureStore';
 
 interface Toast {
   text: string,

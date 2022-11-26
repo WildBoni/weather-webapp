@@ -1,24 +1,21 @@
 // router uses a media query for splitting mobile / desktop navigation
 import {BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import Media from 'react-media';
 
-import MobileHomePage from '../components/MobileHomePage';
-import MobileSelectedCityContainer from '../components/MobileSelectedCityContainer';
-import DesktopHomePage from '../components/DesktopHomePage';
+import MobileHomePage from '../components/mobile/MobileHomePage';
+import MobileSelectedCityContainer from '../components/mobile/MobileSelectedCityContainer';
+import DesktopHomePage from '../components/desktop/DesktopHomePage';
 
-// export const history = createBrowserHistory();
 
 const AppRouter = () => {
   return( 
-    // <Router history={history}>
     <BrowserRouter>
       <div>
-        <Media query="(min-width: 197px)">
+        <Media query="(min-width: 996px)">
           {matches => matches ? (
             <Routes >
               <Route 
-                path="/" 
+                path="/*" 
                 element = {<DesktopHomePage/>}
               />
             </Routes>

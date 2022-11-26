@@ -1,12 +1,10 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import {useContext} from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import SelectedCityDetails from './SelectedCityDetails';
-import SelectedCityTemperature from './SelectedCityTemperature';
-import SelectedCityTodayForecastContainer from './SelectedCityTodayForecastContainer';
-import SelectedCityWeekForecastContainer from './SelectedCityWeekForecastContainer';
-import {ModalContext} from "../context/modalContext";
+import SelectedCityDetails from '../selected-city/SelectedCityDetails';
+import SelectedCityTodayForecastContainer from '../selected-city/SelectedCityTodayForecastContainer';
+import SelectedCityWeekForecastContainer from '../selected-city/SelectedCityWeekForecastContainer';
+import {ModalContext} from "../../context/modalContext";
 import {StyledIconBase} from '@styled-icons/styled-icon';
 import { ArrowLeft, PlusSquare } from '@styled-icons/bootstrap';
 
@@ -40,9 +38,8 @@ export const IconStyleWrapper = styled.div`
   }
 `
 
-function SelectedCity(props) {
-  let {handleModal} = React.useContext(ModalContext);
-  const forecast = useSelector(state => state.forecast.details);
+function MobileSelectedCity(props) {
+  let {handleModal} = useContext(ModalContext);
 
   return(
     <>
@@ -58,12 +55,11 @@ function SelectedCity(props) {
           <PlusSquare />
         </IconStyleWrapper>
       </AddButton>
-      <SelectedCityDetails data={props.details} current={forecast.result.current}/>
-      {/* <SelectedCityTemperature data={props.details}/> */}
+      <SelectedCityDetails details={props.details} current={props.current}/>
       <SelectedCityTodayForecastContainer hourlyForecast={props.hourlyForecast}/>
       <SelectedCityWeekForecastContainer dailyForecast={props.dailyForecast}/>
     </>
   )
 }
 
-export default SelectedCity;
+export default MobileSelectedCity;

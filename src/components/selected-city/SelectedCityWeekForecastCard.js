@@ -1,11 +1,9 @@
-import React from 'react';
 import styled from 'styled-components';
 import{useContext} from 'react';
 import{ThemeContext} from 'styled-components';
-// import moment from 'moment';
 import { format } from 'date-fns';
-import {weatherIconUrl} from '../shared/baseUrls';
-import {weatherBackgroundColor} from '../shared/weatherBackgroundColor';
+import {weatherIconUrl} from '../../shared/baseUrls';
+import {weatherBackgroundColor} from '../../shared/weatherBackgroundColor';
 
 const Card = styled.div`
   background: ${props => props.styles[props.cardColor]};

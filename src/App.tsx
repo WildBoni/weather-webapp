@@ -1,6 +1,4 @@
 import {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import logo from './logo.svg';
 import './App.css';
 
 import {ThemeProvider} from 'styled-components';
@@ -11,20 +9,13 @@ import theme from './styles/theme';
 import Toasts from "./components/Toasts";
 
 import {defaultCities} from './store/defaultCities';
-import { AppThunk } from './store/configureStore';
-// import {loadWeather} from './actions/weather';
 import {setCityWeather} from './features/weatherSlice';
 import {addToast} from './features/toastsSlice';
-import {apiUrl} from './shared/baseUrls';
 import { useAppDispatch } from './hooks/useRedux';
 
-import {useGetWeatherByCityQuery, weatherApi} from './services/weatherApi';
+import {weatherApi} from './services/weatherApi';
 
 function App() {
-  // const {data,error,isLoading} = useGetWeatherByCityQuery('dubai');
-
-  // console.log(data,error,isLoading)
-  
   useEffect(() => {
     fetchDefaultCitiesWeather();
   }, [])

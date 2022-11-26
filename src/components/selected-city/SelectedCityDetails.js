@@ -1,8 +1,8 @@
-import React, {useContext, useState, useEffect} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import{ThemeContext} from 'styled-components';
 import styled from 'styled-components';
 import SelectedCityTodayDetails from './SelectedCityTodayDetails';
-import {weatherBackgroundColor} from '../shared/weatherBackgroundColor';
+import {weatherBackgroundColor} from '../../shared/weatherBackgroundColor';
 import SelectedCityTemperature from './SelectedCityTemperature';
 
 const Section = styled.section`
@@ -52,10 +52,12 @@ const Article = styled.article`
 function SelectedCityDetails(props) {
 	const themeContext = useContext(ThemeContext); 
 	let [backgroundColor, setBackgroundColor] = useState(props.current.weather[0].icon);
+	
 	useEffect(() => {
 		let currentColor = weatherBackgroundColor(props.current.weather[0].icon);
 		setBackgroundColor(currentColor);
-	}, [props.current.weather[0].icon])
+	}, [props.current.weather[0].icon]);
+
 	return (
 		<Section>
 			<SelectedCityTemperature data={props.details}/>

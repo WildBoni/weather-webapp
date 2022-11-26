@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {CityWeather} from '../shared/weather.interfaces';
-import { current } from '@reduxjs/toolkit';
 
 const initialState: CityWeather[] = [];
 
