@@ -1,8 +1,8 @@
 // Search selected cities
 //TODO: use something different than object.entries
 const selectCityByName = (cities: any, text: any) => {
-  return Object.entries(cities).filter((city: any) => {
-    const textMatch = city[1].name.toLowerCase().includes(text.toLowerCase());
+  return cities.filter((city: any) => {
+    const textMatch = city.name.toLowerCase().includes(text.toLowerCase());
     return textMatch;
   })
 }

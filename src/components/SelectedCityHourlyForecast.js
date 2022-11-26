@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 // import moment from 'moment';
-import { getTime } from 'date-fns';
+import { format } from 'date-fns';
 
 const Forecast = styled.div`
   display: flex;
@@ -48,7 +48,7 @@ const Line = styled.div`
 
 function SelectedCityHourlyForecast(props) {
   let hourlyForecast = props.hourlyForecast;
-  let hour = Math.floor(getTime(new Date(hourlyForecast.dt)) / 1000).format('kk:mm');
+  let hour = format(new Date(hourlyForecast.dt * 1000), 'kk:mm');
   let temperature = Math.round(hourlyForecast.temp);
   return(
     <>

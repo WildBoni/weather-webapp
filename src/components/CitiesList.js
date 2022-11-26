@@ -1,23 +1,24 @@
-import React from 'react';
-import {connect, useDispatch} from 'react-redux';
+import React, { useEffect } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import styled from 'styled-components';
 // import moment from 'moment';
 import {weatherIconUrl} from '../shared/baseUrls';
 import CitiesListItem from './CitiesListItem';
 import {selectCityByName} from '../selectors/cities'
 import {selectCity} from '../features/citiesSlice';
+import {removeCityWeather} from '../features/weatherSlice';
 // import {startRemoveWeatherLocation} from '../actions/weather';
 // import {loadForecast} from '../actions/forecast';
 import {addToast} from '../features/toastsSlice';
 import {apiUrl} from '../shared/baseUrls';
-import { getTime } from 'date-fns';
+import { getTime, format } from 'date-fns';
 import {weatherApi} from '../services/weatherApi';
 
 let Container = styled.div`
 	@media(min-width:996px) {
 		margin-top: 10px;
     max-height: calc(100% - 220px);
-    overflow: auto;
+    overflow: auto;  
     // padding-right: 10px;
 
 		&::-webkit-scrollbar {
@@ -35,12 +36,15 @@ let Container = styled.div`
 	}
 `
 
-function CitiesList(props) {
+function CitiesList() {
 	const dispatch = useDispatch();
-	
+	let filters = useSelector(state => state.filters);
+	let weatherLocations = useSelector(state => state.weather);
+	let filteredWeatherLocations = selectCityByName(weatherLocations, filters.text);
+
 	let onSelectCity = (id) => {
 		dispatch(selectCity(id));
-		let filteredCity = props.cities.filter((city) => city[0] === id.toString());
+		let filteredCity = filteredWeatherLocations.filter((city) => city[0] === id.toString());
 		let filteredCityCoords = filteredCity[0][1].coord;
 		dispatch(weatherApi.endpoints.getWeatherByCity.initiate(filteredCityCoords)).then(
 			(res) => dispatch(addToast({text: `${filteredCity[0][1].name} forecast loaded.`})), 
@@ -49,7 +53,7 @@ function CitiesList(props) {
 	}
 
 	let onRemoveCity = (id) => {
-		let filtered = props.cities.filter((city) => city[0] !== id.toString());
+		let filtered = filteredWeatherLocations.filter((city) => city[0] !== id.toString());
 		if(filtered.length > 0) {
 			// dispatch(startRemoveWeatherLocation(id))
 			// 	.then(dispatch(addToast({text: 'City removed!'})));
@@ -61,36 +65,39 @@ function CitiesList(props) {
 	return(
 		<Container>
 		{
-			props.cities.map(([key, val]) => {
+			filteredWeatherLocations && filteredWeatherLocations.length > 0 && filteredWeatherLocations.map((location) => {
 				let details = {
-					id: val.id,
-					lat: val.coord.lat,
-					lon: val.coord.lon,
-					name: val.name, 
-					weather: val.weather[0].main, 
-					icon: val.weather[0].icon,
-					iconUrl: `${weatherIconUrl}${val.weather[0].icon}`, 
-					temperature: Math.round(val.main.temp), 
-					time: Math.floor(getTime(new Date(val.dt)) / 1000).format('dddd D, MMMM'),
-					hour: Math.floor(getTime(new Date(val.dt)) / 1000).format('kk:mm a')
+					id: location.id,
+					lat: location.coord.lat,
+					lon: location.coord.lon,
+					name: location.name, 
+					weather: location.weather[0].main, 
+					icon: location.weather[0].icon,
+					iconUrl: `${weatherIconUrl}${location.weather[0].icon}`, 
+					temperature: Math.round(location.main.temp), 
+					time: format(new Date(location.dt * 1000), 'EEEE d, MMMM'),
+					hour: format(new Date(location.dt * 1000), 'kk:mm a')
 				};
 				return	(
 					<CitiesListItem key={details.id} 
 						onRemoveCity={onRemoveCity} 
 						onSelectCity={onSelectCity} 
 						details={details}
-					/>)
+					/>
+					)
 			})
 		}
 		</Container>
 	)
 }
 
-const mapStateToProps = (state) => {
-	console.log(state)
-	return {
-		cities: selectCityByName(state.weather.locations, state.filters.text)
-	}
-}
+// const mapStateToProps = (state) => {
+// 	console.log(state)
+// 	return {
+// 		cities: selectCityByName(state.weather.locations, state.filters.text)
+// 	}
+// }
 
-export default connect(mapStateToProps)(CitiesList);
+// export default connect(mapStateToProps)(CitiesList);
+
+export default CitiesList;

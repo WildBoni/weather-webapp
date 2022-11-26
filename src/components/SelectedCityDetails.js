@@ -50,6 +50,7 @@ const Article = styled.article`
 	}
 `
 function SelectedCityDetails(props) {
+	console.log(props)
 	const themeContext = useContext(ThemeContext); 
 	let [backgroundColor, setBackgroundColor] = useState(props.current.weather[0].icon);
 	useEffect(() => {
@@ -58,12 +59,12 @@ function SelectedCityDetails(props) {
 	}, [props.current.weather[0].icon])
 	return (
 		<Section>
-			<SelectedCityTemperature data={props.data}/>
+			<SelectedCityTemperature data={props.details}/>
 			<Article styles={themeContext} backgroundColor={backgroundColor}>
-				<h1>{props.data.name}</h1>
-				<h2>{props.data.time}</h2>
-				<h3>{props.data.weather}</h3>
-				<SelectedCityTodayDetails current={props.current} data={props.data}/>
+				<h1>{props.details.name}</h1>
+				<h2>{props.details.time}</h2>
+				<h3>{props.details.weather}</h3>
+				<SelectedCityTodayDetails current={props.current} data={props.details}/>
 			</Article>
 		</Section>
 	) 

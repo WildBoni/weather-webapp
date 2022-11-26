@@ -15,7 +15,10 @@ let Modal = () => {
   let addCity = () => {
     dispatch(weatherApi.endpoints.getWeatherByCity.initiate(inputContent))
       .then(
-        (res) => dispatch(addToast({text: `${res.data} weather added.`}))
+        (res) => {
+          console.log(res)
+          res.data && dispatch(addToast({text: `${res.originalArgs} weather added.`}))
+        }
       ).catch(
         (err) => dispatch(addToast({text: `${err.error}.`}))
       )

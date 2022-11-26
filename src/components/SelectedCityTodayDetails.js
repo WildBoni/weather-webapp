@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 // import moment from 'moment';
-import { getTime } from 'date-fns';
+import { format } from 'date-fns';
 
 let Container = styled.section`
   // display: flex;
@@ -33,7 +33,7 @@ let RightContent = styled.article`
 let SelectedCityTodayDetails = (props) => {
   let todayForecast = props.current;
   let todayDetails = props.data;
-  let day = Math.floor(getTime(new Date(todayForecast.dt)) / 1000).format('ddd, DD MMM');
+  let day = format(new Date(todayForecast.dt * 1000), 'ddd, dd MMM');
   let temperature = Math.round(todayForecast.temp);
   let windSpeed = todayDetails.wind;
   let highTemp = todayDetails.maxTemperature; 

@@ -14,6 +14,8 @@ import SelectedCityTodayForecastContainer from './SelectedCityTodayForecastConta
 import SelectedCityWeekForecastContainer from './SelectedCityWeekForecastContainer';
 import { getTime } from 'date-fns';
 import {weatherApi, useGetForecastByCoordinatesQuery, useGetWeatherByCityQuery} from '../services/weatherApi';
+import {setCityForecast} from '../features/forecastSlice';
+import {format} from 'date-fns'
 // import {defaultCities} from './store/defaultCities';
 
 const Container = styled.section`
@@ -83,31 +85,75 @@ function DesktopHomePage() {
   // const forecast = useSelector(state => state.forecast.details);
   const selectedCityId = useSelector(state => state.cities.selectedCity);
   const weatherLocations = useSelector(state => state.weather);
-	let [isCityReady, setIsCityReady] = useState(false);
+  const cityForecast = useSelector(state => state.forecast);
+	let [isForecastReady, setIsForecastReady] = useState(false);
+	let [cityDetails, setCityDetails] = useState('');
 	
 	//  const {data} = useGetWeatherByCityQuery('Dubai');
 	let city = selectCityById(weatherLocations, selectedCityId)
-	
 	useEffect(() => {
-		if(city && !isCityReady) {
-			setIsCityReady(true);
+		if(city) {
+			setCityDetails({
+				id: city.id,
+				lat: city.coord.lat,
+				lon: city.coord.lon,
+				name: city.name, 
+				weather: city.weather[0].main, 
+				wind: city.wind.speed, 
+				humidity: city.main.temp, 
+				icon: city.weather[0].icon,
+				iconUrl: `${weatherIconUrl}${city.weather[0].icon}`, 
+				temperature: Math.round(city.main.temp), 
+				maxTemperature: Math.round(city.main.temp_max), 
+				minTemperature: Math.round(city.main.temp_min), 
+				time: format(new Date(city.dt * 1000), 'EEEE d, MMMM'),
+				hour: format(new Date(city.dt * 1000), 'kk:mm a')
+			});
+			// setIsCityReady(true);
 			fetchSelectedCityForecast(city.coord.lat,city.coord.lon)
 		}
   }, [city])
+  
+	useEffect(() => {
+		if(cityForecast?.details?.current) {
+			setIsForecastReady(true);
+		}
+  }, [cityForecast])
   
   let fetchSelectedCityForecast = (lat, lon) =>	dispatch(
 		// useGetForecastByCoordinatesQuery({lat, lon})
 		weatherApi.endpoints.getForecastByCoordinates.initiate({lat, lon})
 	)
   	.then(
-			(res) => dispatch(addToast({text: `${city.name} forecast loaded.`})), 
+			(res) => {
+				console.log(res)
+				res.data && dispatch(setCityForecast(res.data));
+				dispatch(addToast({text: `${city.name} forecast loaded.`}))
+			}, 
 			(err) => dispatch(addToast({text: `${err}.`}))
   	)
 	
   return(
     <Container>
+			{ 
+				city && cityDetails && isForecastReady &&
+				<SelectedCityDetails details={cityDetails} current={cityForecast.details.current}/>
+			}
+			{/* {city && isForecastReady && cityForecast?.details?.hourly?.length >= 1 &&
+				<StyledContainer styles={themeContext}>
+					<Title styles={themeContext}>Temps</Title>
+					<ForecastContainer styles={themeContext}>
+						<SelectedCityTodayForecastContainer hourlyForecast={cityForecast.details.hourly}/>
+					</ForecastContainer>
+				</StyledContainer>
+			} */}
 
-
+			{/* {city && isForecastReady && cityForecast?.details?.daily?.length >= 1 &&
+				<StyledTabs styles={themeContext}>
+					<Title styles={themeContext}>Daily forecast</Title>
+					<SelectedCityWeekForecastContainer dailyForecast={cityForecast.details.daily}/>
+				</StyledTabs>
+			} */}
 			
       <Section>
         <DesktopFavCitiesColumn/>

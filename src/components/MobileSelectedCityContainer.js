@@ -10,7 +10,7 @@ import {connect} from 'react-redux';
 import {selectCityById} from '../selectors/cities';
 import {weatherIconUrl} from '../shared/baseUrls';
 // import moment from 'moment';
-import { getTime } from 'date-fns';
+import { format } from 'date-fns';
 
 const Container = styled.div`
   background: ${props => props.styles.blueGradient};
@@ -64,8 +64,8 @@ const mapStateToProps = (state) => {
 			temperature: Math.round(city[1].main.temp), 
 			maxTemperature: Math.round(city[1].main.temp_max), 
 			minTemperature: Math.round(city[1].main.temp_min), 
-			time: Math.floor(getTime(new Date(city[1].dt)) / 1000).format('dddd D, MMMM'),
-			hour: Math.floor(getTime(new Date(city[1].dt)) / 1000).format('kk:mm a')
+			time: format(new Date(city[1].dt * 1000), 'EEEE D, MMMM'),
+			hour: format(new Date(city[1].dt * 1000), 'kk:mm a')
 		}
 	};
 

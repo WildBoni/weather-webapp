@@ -47,6 +47,7 @@ let Text = styled.span`
 `
 
 function SelectedCityTemperature(props){
+  console.log(props)
   const themeContext = useContext(ThemeContext);
 
   return(
