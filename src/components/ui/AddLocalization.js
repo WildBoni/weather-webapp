@@ -32,7 +32,7 @@ function AddLocalization(props) {
 		<Content>
 			<Button onClick={props.geolocation} styles={themeContext}>
 				<StyledGeoAlt />
-				Aggiungi la mia posizione
+				Add my position
 			</Button>
 		</Content>
 	)

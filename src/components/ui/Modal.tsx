@@ -63,10 +63,10 @@ function Modal() {
     return(
       <ModalBackground>
         <Content>
-          <CloseButton onClick={() => handleModal()}>Chiudi</CloseButton>
+          <CloseButton onClick={() => handleModal()}>Close</CloseButton>
           <Text>{modalContent}</Text>
           <Input type="text" onChange={(e: React.FormEvent<HTMLInputElement>) => handleChange(e)}  onKeyPress={(e) => handleKeyPress(e)}/>
-          <AddButton onClick={() => addCity()}>Aggiungi</AddButton>
+          <AddButton onClick={() => addCity()}>Add</AddButton>
         </Content>
       </ModalBackground>
     )

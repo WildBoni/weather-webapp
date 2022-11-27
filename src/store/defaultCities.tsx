@@ -10,7 +10,7 @@ export const defaultCities: {
     [key: string]: City
   }
 } = {
-  selectedCity: 2643743,
+  selectedCity: 2780741,
   cities: {
     '3173435':  {
       name: 'Milan',
@@ -20,9 +20,9 @@ export const defaultCities: {
       name: 'London',
       id: 2643743  
     },
-    '292223': {
-      name: 'Dubai',
-      id: 292223
+    '2780741': {
+      name: 'Dornbirn',
+      id: 2780741
     }
   }
 }

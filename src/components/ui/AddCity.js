@@ -38,10 +38,10 @@ function AddCity() {
 	return(
 		<>
 			<Button styles={themeContext}
-				onClick={() => handleModal('Scrivi il nome della città')}
+				onClick={() => handleModal('Write a city name')}
 			>
 				<StyledPlusSquare />
-				Aggiungi città
+				Add another city
 			</Button>
 		</>
 	)

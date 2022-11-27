@@ -45,7 +45,7 @@ function SearchBar(props) {
 
 	return(
 		<Content>
-			<Title styles={themeContext}>Filtra</Title>
+			<Title styles={themeContext}>Filter</Title>
 			<SearchInput>
 				<Input type="text" placeholder="ex: Miami" onChange={props.onChange} value={props.value}/>
 				<StyledXCircle onClick={props.clearFilter}/>

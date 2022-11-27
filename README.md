@@ -1,4 +1,45 @@
-# Getting Started with Create React App
+# Weather Webapp
+
+This is a React 18 webapp showing weather forecast for any city in the world. It uses openWeatherMap APIs.
+
+## About
+
+This is my personal project to play around with following technologies:
+ - React 18
+ - Redux Toolkit
+ - React Router v6
+ - PWA functionalities
+ - Node.js and Express
+ - Docker
+ - GCP App Engine
+ - CI/CD with GCP Cloud Build to automatically build on Git pushes
+
+## Try it online
+
+Go to [https://weather-webapp-369909.oa.r.appspot.com/](https://weather-webapp-369909.oa.r.appspot.com/) to try the webapp. You can:
+  - Add forecast for new city
+  - Add forecast based on your position
+  - Filter results
+  - Remove cities from your list
+
+## Configuration
+
+1. Clone this repo
+2. Create a .env.local file and put your openWeatherMap API key inside of it (see .env.example for the right syntax)
+3. If you want to test openWeatherMap endpoints with Postman, I have included a collection!
+
+## Want to run it inside Docker?
+
+I created a quick dockerfile for that!
+
+1. docker build . -t react-weather-webapp
+2. docker run -p 3000:3000 react-weather-webapp
+
+## GCP deployment
+- You can deploy this app easily on GCP creating a trigger and using the dockerfile for the configuration
+- Otherwise, you can setup an App Engine instance and use `gcloud app deploy` (you will need the Google Cloud SDK installed)
+
+## Create-react-app
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -6,13 +47,17 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm react-start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
+### `npm start`
+
+Starts the Node.js server.
 
 ### `npm test`
 
