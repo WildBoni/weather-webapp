@@ -4,6 +4,7 @@ import MobileMenuBar from './MobileMenuBar';
 import {setTextFilter} from '../../features/filtersSlice';
 import FilterSelectedCities from '../ui/FilterSelectedCities';
 import {addToast} from '../../features/toastsSlice';
+import {setCityWeather} from '../../features/weatherSlice';
 import CitiesList from '../CitiesList';
 import AddCity from '../ui/AddCity';
 import {weatherApi} from '../../services/weatherApi';
@@ -35,10 +36,13 @@ function MobileHomePage() {
     e.preventDefault();
     if('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        dispatch(weatherApi.endpoints.getWeatherByCoords.initiate(position.coords))
+        dispatch(weatherApi.endpoints.getWeatherByCoordinates.initiate({lat: position.coords.latitude, lon: position.coords.longitude}))
           .then(
-            () => dispatch(addToast({text: 'Your location has been added!'})), 
-            () => dispatch(addToast({text: 'City not found.'}))
+            (res) => {
+              res.data && dispatch(setCityWeather(res.data));
+              dispatch(addToast({text: `Your location has been added!`}))
+            }, 
+            (err) => dispatch(addToast({text: `${err}.`}))
           )
       });
       //TODO: create a snackbar to show related messages

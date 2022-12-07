@@ -25,7 +25,7 @@ function DesktopFavCitiesColumn() {
 		e.preventDefault();
 		if('geolocation' in navigator) {
 			navigator.geolocation.getCurrentPosition((position) => {
-				dispatch(weatherApi.endpoints.getWeatherByCoordinates.initiate({lon: position.coords.latitude, lat: position.coords.longitude}))
+				dispatch(weatherApi.endpoints.getWeatherByCoordinates.initiate({lat: position.coords.latitude, lon: position.coords.longitude}))
 					.then(
 						(res) => {
 							res.data && dispatch(setCityWeather(res.data));
